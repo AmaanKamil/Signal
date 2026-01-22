@@ -8,19 +8,24 @@ def insights_page():
         return
 
     st.markdown("### 💡 Key Insights")
-    st.markdown("Automated insights derived from user behavior patterns.")
+    st.markdown("Automated insights derived from behavioral patterns.")
     
-    # Placeholder structured output
-    st.markdown("""
-    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 15px; border-left: 5px solid #00c853;">
-        <strong>High Value Cohort:</strong> Users in the 'Food' vertical with >3 sessions/week have a 40% higher conversion probability.
-    </div>
-    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 15px; border-left: 5px solid #ffab00;">
-        <strong>Drop-off Alert:</strong> Significant drop-off observed at the 'Payment' step for users in 'Ride Hailing'.
-    </div>
-    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 15px; border-left: 5px solid #2962ff;">
-        <strong>Cross-sell Opportunity:</strong> High correlation between 'Grocery' and 'Food' usage during evening hours.
-    </div>
-    """, unsafe_allow_html=True)
-    
-    st.write("*(AI integration for dynamic insight generation pending)*")
+    if "intelligence" in st.session_state:
+        insights = st.session_state["intelligence"].get("insights", [])
+        
+        if not insights:
+            st.info("No specific insights detected in the current dataset.")
+        
+        for item in insights:
+            # Color coding based on severity (conceptually inverted for insights, green is good)
+            color = "#00c853" # Green
+            
+            st.markdown(f"""
+            <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 15px; border-left: 5px solid {color};">
+                <strong>{item['title']}</strong><br>
+                <span style="font-size: 0.9em; color: #555;">{item['detail']}</span><br>
+                <small style="color: #888;">Domain: {item['domain']}</small>
+            </div>
+            """, unsafe_allow_html=True)
+    else:
+        st.info("Run the intelligence engine to see insights.")

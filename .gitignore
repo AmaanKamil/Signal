@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+venv/
+env/
+.DS_Store
+.idea/
+.vscode/
+data/*.csv
+secrets.toml
+streamlit_secrets.toml
+.streamlit/secrets.toml
+logs/
+outputs/

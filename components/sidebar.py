@@ -49,7 +49,11 @@ def sidebar():
                     st.session_state["vertical_stats"] = analytics.get_vertical_stats(processed_df)
                     st.session_state["time_stats"], st.session_state["location_stats"] = analytics.get_contextual_stats(processed_df)
                     
-                    st.success("Dataset loaded and processed successfully!")
+                    # Intelligence Engine
+                    from utils.intelligence_engine import aggregate_intelligence
+                    st.session_state["intelligence"] = aggregate_intelligence(processed_df)
+                    
+                    st.success("Dataset loaded, processed, and analyzed successfully!")
                 else:
                     st.error(message)
         
@@ -73,7 +77,11 @@ def sidebar():
                 st.session_state["vertical_stats"] = analytics.get_vertical_stats(processed_df)
                 st.session_state["time_stats"], st.session_state["location_stats"] = analytics.get_contextual_stats(processed_df)
 
-                st.success("Sample dataset loaded and processed!")
+                # Intelligence Engine
+                from utils.intelligence_engine import aggregate_intelligence
+                st.session_state["intelligence"] = aggregate_intelligence(processed_df)
+
+                st.success("Sample dataset loaded, processed, and analyzed!")
             else:
                 st.error("Sample dataset not found")
 
