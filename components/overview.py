@@ -1,5 +1,6 @@
 import streamlit as st
 import plotly.graph_objects as go
+import plotly.express as px
 import pandas as pd
 
 def overview_page():
@@ -14,41 +15,82 @@ def overview_page():
     </div>
     """, unsafe_allow_html=True)
     
-    if "dataset" in st.session_state:
-        df = st.session_state["dataset"]
+    if "global_metrics" in st.session_state:
+        metrics = st.session_state["global_metrics"]
         
-        st.subheader("Dataset Summary")
+        st.subheader("Global Metrics")
         
-        col1, col2, col3, col4, col5 = st.columns(5)
-        
+        col1, col2, col3, col4 = st.columns(4)
         with col1:
-            st.metric("Total Users", len(df))
+            st.metric("Total Users", f"{metrics.get('total_users', 0)}")
+            st.metric("Avg Order Value", f"${metrics.get('avg_order_value', 0):.2f}")
         with col2:
-            st.metric("Avg Sessions/Week", f"{df['sessions_per_week'].mean():.2f}")
+            st.metric("Avg Sessions/Week", f"{metrics.get('avg_sessions_per_week', 0):.2f}")
+            st.metric("Avg Payment Failures", f"{metrics.get('avg_payment_failures', 0):.2f}")
         with col3:
-            st.metric("Avg Conversion Prob", f"{df['probability_of_conversion'].mean():.2%}")
+            st.metric("Avg Conversion Prob", f"{metrics.get('avg_probability_of_conversion', 0):.2%}")
+            st.metric("Avg Cross-Vertical Usage", f"{metrics.get('avg_cross_vertical_usage', 0):.2f}")
         with col4:
-            st.metric("Avg Repeat Usage", f"{df['likelihood_of_repeat_usage'].mean():.2%}")
-        with col5:
-            st.metric("Avg Order Value", f"${df['avg_order_value'].mean():.2f}")
+            st.metric("Avg Repeat Usage", f"{metrics.get('avg_likelihood_of_repeat_usage', 0):.2%}")
             
         st.divider()
         
-        # Simple Charts
+        # User Segments
+        if "segment_counts" in st.session_state:
+            st.subheader("User Segmentation")
+            seg_counts = st.session_state["segment_counts"]
+            
+            # Create a dataframe for the chart
+            seg_df = pd.DataFrame(list(seg_counts.items()), columns=["Segment", "Count"])
+            
+            fig_seg = px.bar(
+                seg_df, 
+                x="Segment", 
+                y="Count", 
+                color="Segment", 
+                title="User Counts by Behavioral Segment",
+                text="Count"
+            )
+            fig_seg.update_layout(showlegend=False)
+            st.plotly_chart(fig_seg, use_container_width=True)
+
+        st.divider()
+        
         c1, c2 = st.columns(2)
         
+        # Funnel Analysis
         with c1:
-            st.subheader("User Distribution by Vertical")
-            vertical_counts = df['vertical'].value_counts()
-            fig_vertical = go.Figure(data=[go.Pie(labels=vertical_counts.index, values=vertical_counts.values, hole=.3)])
-            fig_vertical.update_layout(margin=dict(t=0, b=0, l=0, r=0))
-            st.plotly_chart(fig_vertical, use_container_width=True)
-            
+            st.subheader("Funnel Dropoff")
+            if "funnel_stats" in st.session_state:
+                funnel_df = st.session_state["funnel_stats"]
+                if not funnel_df.empty:
+                    fig_funnel = px.funnel(
+                        funnel_df, 
+                        y='Step', 
+                        x='Dropoff Count', 
+                        title="User Dropoff by Step"
+                    )
+                    st.plotly_chart(fig_funnel, use_container_width=True)
+                else:
+                    st.info("No funnel data available.")
+        
+        # Vertical Performance
         with c2:
-            st.subheader("Conversion Probability Distribution")
-            fig_hist = go.Figure(data=[go.Histogram(x=df['probability_of_conversion'], nbinsx=20)])
-            fig_hist.update_layout(margin=dict(t=0, b=0, l=0, r=0), xaxis_title="Probability", yaxis_title="Count")
-            st.plotly_chart(fig_hist, use_container_width=True)
+            st.subheader("Vertical Performance")
+            if "vertical_stats" in st.session_state:
+                vert_df = st.session_state["vertical_stats"]
+                if not vert_df.empty:
+                    fig_vert = px.bar(
+                        vert_df, 
+                        x="Vertical", 
+                        y=["Avg Sessions", "Avg Conv Prob"], 
+                        barmode="group",
+                        title="Key Metrics by Vertical",
+                        labels={"value": "Score", "variable": "Metric"}
+                    )
+                    st.plotly_chart(fig_vert, use_container_width=True)
+                else:
+                    st.info("No vertical data available.")
 
     else:
         st.info("Please upload a dataset or load the sample dataset from the sidebar to view metrics.")

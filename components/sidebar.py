@@ -32,20 +32,50 @@ def sidebar():
             if df is not None:
                 is_valid, message = validate_dataset(df)
                 if is_valid:
-                    st.session_state["dataset"] = df
-                    st.success("Dataset loaded successfully!")
+                    # Process and Store Data
+                    from utils.data_engine import process_data, get_global_metrics
+                    from utils.segmentation import get_segments, get_segment_counts
+                    import utils.analytics as analytics
+                    
+                    processed_df = process_data(df)
+                    st.session_state["dataset"] = processed_df
+                    st.session_state["global_metrics"] = get_global_metrics(processed_df)
+                    
+                    segments = get_segments(processed_df)
+                    st.session_state["segments"] = segments
+                    st.session_state["segment_counts"] = get_segment_counts(segments)
+                    
+                    st.session_state["funnel_stats"] = analytics.get_funnel_stats(processed_df)
+                    st.session_state["vertical_stats"] = analytics.get_vertical_stats(processed_df)
+                    st.session_state["time_stats"], st.session_state["location_stats"] = analytics.get_contextual_stats(processed_df)
+                    
+                    st.success("Dataset loaded and processed successfully!")
                 else:
                     st.error(message)
         
         if st.button("Load Sample Dataset"):
             df = load_sample_dataset()
             if df is not None:
-                is_valid, message = validate_dataset(df)
-                if is_valid:
-                    st.session_state["dataset"] = df
-                    st.success("Sample dataset loaded!")
-                else:
-                    st.error(message)
+                # Process and Store Data (Sample)
+                from utils.data_engine import process_data, get_global_metrics
+                from utils.segmentation import get_segments, get_segment_counts
+                import utils.analytics as analytics
+                
+                processed_df = process_data(df)
+                st.session_state["dataset"] = processed_df
+                st.session_state["global_metrics"] = get_global_metrics(processed_df)
+                
+                segments = get_segments(processed_df)
+                st.session_state["segments"] = segments
+                st.session_state["segment_counts"] = get_segment_counts(segments)
+                
+                st.session_state["funnel_stats"] = analytics.get_funnel_stats(processed_df)
+                st.session_state["vertical_stats"] = analytics.get_vertical_stats(processed_df)
+                st.session_state["time_stats"], st.session_state["location_stats"] = analytics.get_contextual_stats(processed_df)
+
+                st.success("Sample dataset loaded and processed!")
+            else:
+                st.error("Sample dataset not found")
 
         if "dataset" in st.session_state:
             st.info(f"Loaded: {len(st.session_state['dataset'])} rows")
