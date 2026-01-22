@@ -1,26 +1,15 @@
 import streamlit as st
-import pandas as pd
 from components.sidebar import sidebar
+from ui.layouts.header import render_header
 
-# Import page components
-# Note: These will be implemented in the next steps
-try:
-    from components.overview import overview_page
-    from components.insights import insights_page
-    from components.problems import problems_page
-    from components.opportunities import opportunities_page
-    from components.features import features_page
-    from components.experiments import experiments_page
-    from components.priorities import priorities_page
-except ImportError:
-    # Fallback for when components are not yet created
-    def overview_page(): st.write("Overview Page Placeholder")
-    def insights_page(): st.write("Insights Page Placeholder")
-    def problems_page(): st.write("Problems Page Placeholder")
-    def opportunities_page(): st.write("Opportunities Page Placeholder")
-    def features_page(): st.write("Features Page Placeholder")
-    def experiments_page(): st.write("Experiments Page Placeholder")
-    def priorities_page(): st.write("Priorities Page Placeholder")
+# Import UI pages
+from ui.pages.overview import render_overview
+from ui.pages.insights import render_insights
+from ui.pages.problems import render_problems
+from ui.pages.opportunities import render_opportunities
+from ui.pages.features import render_features
+from ui.pages.experiments import render_experiments
+from ui.pages.priorities import render_priorities
 
 st.set_page_config(
     page_title="Signal",
@@ -29,7 +18,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for styling
+# Custom CSS for Global Styling
 st.markdown("""
 <style>
     .reportview-container {
@@ -44,30 +33,32 @@ st.markdown("""
         color: #666666;
         font-size: 18px;
     }
+    div.stButton > button {
+        width: 100%;
+    }
 </style>
 """, unsafe_allow_html=True)
 
 def main():
     selected_page = sidebar()
     
-    st.markdown("<h1 class='main-header'>Signal</h1>", unsafe_allow_html=True)
-    st.markdown("<p class='sub-header'>Turning behavior into product decisions at Careem</p>", unsafe_allow_html=True)
-    st.divider()
+    # Global Header
+    render_header()
     
     if selected_page == "Overview":
-        overview_page()
+        render_overview()
     elif selected_page == "Insights":
-        insights_page()
+        render_insights()
     elif selected_page == "Problems":
-        problems_page()
+        render_problems()
     elif selected_page == "Opportunities":
-        opportunities_page()
+        render_opportunities()
     elif selected_page == "Features":
-        features_page()
+        render_features()
     elif selected_page == "Experiments":
-        experiments_page()
+        render_experiments()
     elif selected_page == "Priorities":
-        priorities_page()
+        render_priorities()
 
 if __name__ == "__main__":
     main()
