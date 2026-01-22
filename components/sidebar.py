@@ -87,5 +87,26 @@ def sidebar():
 
         if "dataset" in st.session_state:
             st.info(f"Loaded: {len(st.session_state['dataset'])} rows")
-            
+
+        st.divider()
+        st.subheader("🤖 Signal AI")
+        
+        api_key = st.text_input("OpenAI API Key", type="password", help="Enter your key to enable AI features")
+        
+        if api_key:
+            if st.button("Generate AI Report"):
+                if "intelligence" in st.session_state:
+                    from ai.orchestrator import run_signal_ai_pipeline
+                    results, status = run_signal_ai_pipeline(st.session_state["intelligence"], api_key)
+                    
+                    if status == "Success":
+                        st.session_state["ai_results"] = results
+                        st.success("AI pipeline completed!")
+                    else:
+                        st.error(status)
+                else:
+                    st.warning("Please load a dataset first.")
+        else:
+            st.warning("AI disabled. Add API key to enable.")
+
         return page
