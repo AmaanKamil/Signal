@@ -28,8 +28,8 @@ def render_header():
                 status_html += "<span style='color:#757575; font-size:0.8em; margin-right:15px;'>○ No Data</span>"
                 
             # AI Status
-            if "ai_results" in st.session_state:
-                status_html += "<span style='color:#7b1fa2; font-size:0.8em;'>● AI Enabled</span>"
+            if st.session_state.get("ai_ready", False):
+                status_html += "<span style='color:#7b1fa2; font-size:0.8em;'>● AI Active</span>"
             else:
                 status_html += "<span style='color:#757575; font-size:0.8em;'>○ AI Idle</span>"
                 
