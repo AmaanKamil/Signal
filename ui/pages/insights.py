@@ -26,16 +26,23 @@ def render_insights():
             all_insights.append(i)
             
     # AI
-    if "AI" in source_filter and "ai_results" in st.session_state:
-        for i in st.session_state["ai_results"].get("ai_insights", []):
-            # Normalizing AI structure to fit card
-            all_insights.append({
-                'title': i.get('title', 'AI Insight'),
-                'detail': f"{i.get('signals', '')}\n\nRisk: {i.get('business_risk', '')}",
-                'domain': i.get('impact_domain', 'Strategy'),
-                'severity': i.get('severity', 'Medium'),
-                'source': 'AI Engine'
-            })
+    if "AI" in source_filter:
+        if st.session_state.get("ai_ready"):
+            ai_insights = st.session_state.get("ai_insights", [])
+            if ai_insights:
+                for i in ai_insights:
+                    # Normalizing AI structure to fit card
+                    all_insights.append({
+                        'title': i.get('title', 'AI Insight'),
+                        'detail': f"{i.get('signals', '')}\n\nRisk: {i.get('business_risk', '')}",
+                        'domain': i.get('impact_domain', 'Strategy'),
+                        'severity': i.get('severity', 'Medium'),
+                        'source': 'AI Engine'
+                    })
+            else:
+                st.warning("⚠️ AI generated no insights. Please regenerate.")
+        else:
+            st.info("🤖 Enter API key & run AI to view AI insights.")
             
     if not all_insights:
         st.info("No insights found for selected filters.")

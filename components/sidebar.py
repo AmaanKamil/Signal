@@ -97,20 +97,35 @@ def sidebar():
             if st.button("Generate AI Report"):
                 if "intelligence" in st.session_state:
                     from ai.orchestrator import run_signal_ai_pipeline
-                    # The orchestrator handles state updates internally now
-                    _, status = run_signal_ai_pipeline(st.session_state["intelligence"], api_key)
+                    
+                    results, status = run_signal_ai_pipeline(st.session_state["intelligence"], api_key)
                     
                     if status == "Success":
+                        # Write to persistent state keys
+                        st.session_state["ai_insights"] = results["insights"]
+                        st.session_state["ai_features"] = results["features"]
+                        st.session_state["ai_experiments"] = results["experiments"]
+                        st.session_state["ai_priorities"] = results["priorities"]
+                        
+                        st.session_state["ai_ready"] = True
+                        st.session_state["ai_generated"] = True
+                        st.session_state["ai_results"] = results # Keep for backward compatibility
+                        
                         st.success("AI pipeline completed!")
-                        # Force rerun to update UI Immediately if needed, though Streamlit usually handles it
+                        st.rerun()
                     else:
                         st.error(status)
                 else:
                     st.warning("Please load a dataset first.")
                     
             # Debug Panel (Temporary)
-            with st.expander("Debug: State Keys"):
-                st.write(list(st.session_state.keys()))
+            st.divider()
+            st.subheader("🛠 Debug Panel")
+            st.write("AI_READY:", st.session_state.get("ai_ready"))
+            st.write("AI_INSIGHTS:", len(st.session_state.get("ai_insights", [])))
+            st.write("AI_FEATURES:", len(st.session_state.get("ai_features", [])))
+            st.write("AI_EXPERIMENTS:", len(st.session_state.get("ai_experiments", [])))
+            st.write("AI_PRIORITIES:", len(st.session_state.get("ai_priorities", [])))
         else:
             st.warning("AI disabled. Add API key to enable.")
 

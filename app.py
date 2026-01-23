@@ -36,8 +36,17 @@ st.markdown("""
     div.stButton > button {
         width: 100%;
     }
-</style>
-""", unsafe_allow_html=True)
+# AI State Initialization
+if "ai_ready" not in st.session_state:
+    st.session_state["ai_ready"] = False
+if "ai_insights" not in st.session_state:
+    st.session_state["ai_insights"] = []
+if "ai_features" not in st.session_state:
+    st.session_state["ai_features"] = []
+if "ai_experiments" not in st.session_state:
+    st.session_state["ai_experiments"] = []
+if "ai_priorities" not in st.session_state:
+    st.session_state["ai_priorities"] = []
 
 def main():
     selected_page = sidebar()

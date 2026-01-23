@@ -10,7 +10,7 @@ def render_priorities():
         st.warning("Data required.")
         return
         
-    if st.session_state.get("ai_generated", False):
+    if st.session_state.get("ai_ready"):
         priorities = st.session_state.get("ai_priorities", [])
     
         if priorities:
@@ -57,7 +57,7 @@ def render_priorities():
                 </div>
                 """, unsafe_allow_html=True)
         else:
-            st.info("No priorities generated yet.")
+            st.warning("⚠️ AI generated no roadmap priorities. Please regenerate.")
 
     else:
-         st.info("Enter your API key and click 'Generate AI Report' in the sidebar to generate the roadmap.")
+         st.info("🤖 Enter your API key and click 'Generate AI Report' in the sidebar to generate the roadmap.")

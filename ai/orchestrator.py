@@ -8,16 +8,18 @@ def run_signal_ai_pipeline(intelligence_summary, api_key):
     """
     Orchestrates the full AI pipeline:
     Intelligence -> Insights -> Features -> Experiments -> Priorities
+    Returns a dictionary of raw results.
     """
+    # Empty results structure
     results = {
-        "ai_insights": [],
-        "ai_features": [],
-        "ai_experiments": [],
-        "ai_priorities": []
+        "insights": [],
+        "features": [],
+        "experiments": [],
+        "priorities": []
     }
     
     if not api_key:
-        return results, "API Key missing. AI pipeline skipped."
+        return results, "API Key missing."
 
     progress_bar = st.progress(0)
     status_text = st.empty()
@@ -26,36 +28,28 @@ def run_signal_ai_pipeline(intelligence_summary, api_key):
         # Step 1: Generate Insights
         status_text.markdown("### 🧠 AI: Analyzing intelligence patterns...")
         ai_insights = generate_insights(intelligence_summary, api_key)
-        results["ai_insights"] = ai_insights
+        results["insights"] = ai_insights
         progress_bar.progress(25)
         
         # Step 2: Generate Features
         status_text.markdown("### 💡 AI: Ideating product features...")
         ai_features = generate_features(ai_insights, api_key)
-        results["ai_features"] = ai_features
+        results["features"] = ai_features
         progress_bar.progress(50)
         
         # Step 3: Generate Experiments
         status_text.markdown("### 🧪 AI: Designing validation experiments...")
         ai_experiments = generate_experiments(ai_features, api_key)
-        results["ai_experiments"] = ai_experiments
+        results["experiments"] = ai_experiments
         progress_bar.progress(75)
         
         # Step 4: Prioritize
         status_text.markdown("### 🎯 AI: Prioritizing roadmap...")
         ai_priorities = generate_priorities(ai_features, ai_experiments, api_key)
-        results["ai_priorities"] = ai_priorities
+        results["priorities"] = ai_priorities
         progress_bar.progress(100)
         
         status_text.success("✅ AI Strategic Analysis Complete!")
-        
-        # Explicit State Binding
-        st.session_state["ai_insights"] = ai_insights
-        st.session_state["ai_features"] = ai_features
-        st.session_state["ai_experiments"] = ai_experiments
-        st.session_state["ai_priorities"] = ai_priorities
-        st.session_state["ai_generated"] = True
-        st.session_state["ai_results"] = results
         
         return results, "Success"
         

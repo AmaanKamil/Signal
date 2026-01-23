@@ -9,7 +9,7 @@ def render_experiments():
         st.warning("Data required.")
         return
         
-    if st.session_state.get("ai_generated", False):
+    if st.session_state.get("ai_ready"):
         experiments = st.session_state.get("ai_experiments", [])
         
         if experiments:
@@ -37,7 +37,7 @@ def render_experiments():
                 """, unsafe_allow_html=True)
             
         else:
-            st.info("No experiments designed yet.")
+            st.warning("⚠️ AI generated no experiments. Please regenerate.")
 
     else:
-         st.info("Enter your API key and click 'Generate AI Report' in the sidebar to design experiments.")
+         st.info("🤖 Enter your API key and click 'Generate AI Report' in the sidebar to design experiments.")
