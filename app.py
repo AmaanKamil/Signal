@@ -68,7 +68,7 @@ def main():
     elif selected_page == "Features":
         render_features()
     elif selected_page == "Experiments":
-        render_experiments()
+        render_experiments(st.session_state.get("ai_experiments", []))
     elif selected_page == "Priorities":
         render_priorities()
 
