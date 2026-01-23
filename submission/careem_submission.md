@@ -3,6 +3,9 @@
 **Project Name**: Signal
 **Tagline**: Turning behavior into product decisions.
 
+**Public App Link**: [https://signal-careem.streamlit.app/](https://signal-careem.streamlit.app/)
+**GitHub Repository**: [https://github.com/AmaanKamil/Signal](https://github.com/AmaanKamil/Signal)
+
 ## Product Description
 Signal is an AI-native Product Intelligence Platform designed to automate the work of Product Managers and Data Analysts. Instead of just showing dashboards, Signal *reasons* about data to identify friction points, suggest features, and design experiments automatically.
 
@@ -25,7 +28,8 @@ Signal uses a multi-stage AI pipeline:
 - Pandas / Plotly
 
 ## Testing Instructions
-1.  Launch the app (`streamlit run app.py`).
-2.  Click "Load Sample Dataset" to populate the dashboard with Careem-like user behavior data.
-3.  Enter an OpenAI Key in the sidebar.
-4.  Click "Generate AI Report" to see the AI build a product strategy live.
+1.  Launch the app or access the [Live Demo](https://signal-careem.streamlit.app/).
+2.  Click **"Load Sample Dataset"** in the sidebar to populate the dashboard with Careem-like user behavior data.
+3.  Enter an **OpenAI API Key** in the sidebar.
+4.  Click **"Generate AI Report"** to see the AI build a product strategy live.
+5.  Navigate through the tabs (**Insights**, **Features**, **Roadmap**) to see the results.

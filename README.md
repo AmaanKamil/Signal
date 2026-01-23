@@ -2,7 +2,26 @@
 
 **Turning behavior into product decisions.**
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_solid.svg)](https://signal-careem.streamlit.app/)
+
 Signal is an AI-powered product intelligence system designed to transform raw user behavior data into actionable product strategies. Built for the Careem ecosystem, it combines deterministic pattern detection with generative AI to identify risks, spot opportunities, and design data-driven roadmaps.
+
+## 🔗 Live Demo
+Access the deployed application here: [https://signal-careem.streamlit.app/](https://signal-careem.streamlit.app/)
+
+> **Note**: As the app is hosted on Streamlit Cloud's free tier, it may go into "sleep mode" after a period of inactivity. If you see a "This app is in the oven" or a sleep message, simply click **"Yes, get this app back up!"** to wake it up.
+
+## 🚀 How to Use
+
+1. **Access the App**: Open the [Live Demo](https://signal-careem.streamlit.app/) or run locally.
+2. **Load Data**: 
+   - **Automatic**: Click **"Load Sample Dataset"** in the sidebar for an instant demo. This uses the `data/careem_dummy_user_behavior_dataset.csv` already bundled in the repository.
+   - **Manual**: You can also manually upload the dataset by downloading it from the `data/` folder in this repo and using the **"Upload CSV"** section in the sidebar.
+3. **Analyze Vitals**: Explore the **Overview** dashboard to see the global product health.
+4. **Enable AI features**:
+   - In the sidebar, enter your **OpenAI API Key**.
+   - Click **"Generate AI Report"**.
+5. **Explore Strategy**: Navigate through **Insights**, **Features**, **Experiments**, and **Priorities** to see the AI-generated roadmap and validation plans.
 
 ## 🚀 Key Features
 

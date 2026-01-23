@@ -97,15 +97,20 @@ def sidebar():
             if st.button("Generate AI Report"):
                 if "intelligence" in st.session_state:
                     from ai.orchestrator import run_signal_ai_pipeline
-                    results, status = run_signal_ai_pipeline(st.session_state["intelligence"], api_key)
+                    # The orchestrator handles state updates internally now
+                    _, status = run_signal_ai_pipeline(st.session_state["intelligence"], api_key)
                     
                     if status == "Success":
-                        st.session_state["ai_results"] = results
                         st.success("AI pipeline completed!")
+                        # Force rerun to update UI Immediately if needed, though Streamlit usually handles it
                     else:
                         st.error(status)
                 else:
                     st.warning("Please load a dataset first.")
+                    
+            # Debug Panel (Temporary)
+            with st.expander("Debug: State Keys"):
+                st.write(list(st.session_state.keys()))
         else:
             st.warning("AI disabled. Add API key to enable.")
 

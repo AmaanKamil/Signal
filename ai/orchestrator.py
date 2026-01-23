@@ -48,6 +48,15 @@ def run_signal_ai_pipeline(intelligence_summary, api_key):
         progress_bar.progress(100)
         
         status_text.success("✅ AI Strategic Analysis Complete!")
+        
+        # Explicit State Binding
+        st.session_state["ai_insights"] = ai_insights
+        st.session_state["ai_features"] = ai_features
+        st.session_state["ai_experiments"] = ai_experiments
+        st.session_state["ai_priorities"] = ai_priorities
+        st.session_state["ai_generated"] = True
+        st.session_state["ai_results"] = results
+        
         return results, "Success"
         
     except Exception as e:
