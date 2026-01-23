@@ -15,8 +15,7 @@ def render_experiments():
         if experiments:
             st.markdown("### 🧪 Active Designs")
             for exp in experiments:
-                st.markdown(f"""
-                <div style="background-color: #fff; padding: 20px; border-radius: 8px; border-left: 5px solid #673ab7; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px;">
+                st.markdown(f"""<div style="background-color: #fff; padding: 20px; border-radius: 8px; border-left: 5px solid #673ab7; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px;">
                     <h4 style="margin:0 0 10px 0; color:#4527a0;">{exp.get('hypothesis', 'Hypothesis')}</h4>
                     
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; font-size:0.9em; margin-bottom:15px;">
@@ -33,8 +32,7 @@ def render_experiments():
                     <div style="background:#f3e5f5; padding:10px; border-radius:4px; font-size:0.85em; color:#4a148c;">
                         <strong>Success Criteria:</strong> {exp.get('success_criteria', '')}
                     </div>
-                </div>
-                """, unsafe_allow_html=True)
+                </div>""", unsafe_allow_html=True)
             
         else:
             st.warning("⚠️ AI generated no experiments. Please regenerate.")
