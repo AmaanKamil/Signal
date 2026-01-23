@@ -51,7 +51,7 @@ def run_signal_ai_pipeline(intelligence_summary, api_key):
         
         status_text.success("✅ AI Strategic Analysis Complete!")
         
-        return results, "Success"
+        return results
         
     except Exception as e:
         return results, f"AI Pipeline Error: {str(e)}"

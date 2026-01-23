@@ -98,14 +98,15 @@ def sidebar():
                 if "intelligence" in st.session_state:
                     from ai.orchestrator import run_signal_ai_pipeline
                     
-                    results, status = run_signal_ai_pipeline(st.session_state["intelligence"], api_key)
+                    results = run_signal_ai_pipeline(st.session_state["intelligence"], api_key)
                     
-                    if status == "Success":
+                    # basic check if results dictionary has content
+                    if results and isinstance(results, dict) and results.get("insights"):
                         # Write to persistent state keys
-                        st.session_state["ai_insights"] = results["insights"]
-                        st.session_state["ai_features"] = results["features"]
-                        st.session_state["ai_experiments"] = results["experiments"]
-                        st.session_state["ai_priorities"] = results["priorities"]
+                        st.session_state["ai_insights"] = results.get("insights", [])
+                        st.session_state["ai_features"] = results.get("features", [])
+                        st.session_state["ai_experiments"] = results.get("experiments", [])
+                        st.session_state["ai_priorities"] = results.get("priorities", [])
                         
                         st.session_state["ai_ready"] = True
                         st.session_state["ai_generated"] = True
@@ -114,7 +115,7 @@ def sidebar():
                         st.success("AI pipeline completed!")
                         st.rerun()
                     else:
-                        st.error(status)
+                        st.error("AI pipeline failed to generate results. Please check API key and try again.")
                 else:
                     st.warning("Please load a dataset first.")
                     
