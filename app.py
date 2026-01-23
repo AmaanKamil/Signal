@@ -36,6 +36,9 @@ st.markdown("""
     div.stButton > button {
         width: 100%;
     }
+</style>
+""", unsafe_allow_html=True)
+
 # AI State Initialization
 if "ai_ready" not in st.session_state:
     st.session_state["ai_ready"] = False
