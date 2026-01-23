@@ -12,12 +12,10 @@ def generate_priorities(features, experiments, api_key):
     try:
         client = OpenAI(api_key=api_key)
         
-        initiatives = {
-            "features": features,
-            "experiments": experiments
-        }
-        
-        prompt = PRIORITY_PROMPT.format(initiatives_data=json.dumps(initiatives, indent=2))
+        prompt = PRIORITY_PROMPT.format(
+            features_data=json.dumps(features, indent=2),
+            experiments_data=json.dumps(experiments, indent=2)
+        )
         
         response = client.chat.completions.create(
             model="gpt-4o",
@@ -33,5 +31,6 @@ def generate_priorities(features, experiments, api_key):
         return data.get("priorities", [])
         
     except Exception as e:
-        print(f"Error generating priorities: {e}")
+        print(f"Error generating priorities: {str(e)}")
+        # Return empty list on failure to prevent pipeline crash
         return []

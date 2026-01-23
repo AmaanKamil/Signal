@@ -28,5 +28,5 @@ def generate_features(insights, api_key):
         return data.get("features", [])
         
     except Exception as e:
-        print(f"Error generating features: {e}")
+        print(f"Error generating features: {str(e)}")
         return []

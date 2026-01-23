@@ -1,120 +1,117 @@
 # Prompt templates for Signal AI
 
 INSIGHT_PROMPT = """
-Role: Product intelligence AI for a super-app ecosystem.
-Task:
-Analyze structured behavioral intelligence and generate product insights.
+Analyze the following user behavior intelligence data and identifying strategic product insights.
 
-Rules:
-- Be data-grounded: Use the provided signals.
-- Avoid generic advice: Be specific to the observed behavior.
-- Reference behavior signals: Cite numbers (e.g., "45% dropoff").
-- Structure outputs: Provide clear titles and severities.
-
-Output Schema (JSON):
-{
-  "insights": [
-    {
-      "title": "Insight Title",
-      "segment": "Target Segment",
-      "signals": "Specific data signal",
-      "impact_domain": "Domain (e.g., Retention)",
-      "severity": "Low/Medium/High",
-      "business_risk": "Description of risk if ignored"
-    }
-  ]
-}
-
-Input Intelligence:
+INTELLIGENCE DATA:
 {intelligence_data}
+
+INSTRUCTIONS:
+1. Identify 3-5 distinct strategic insights (risks, opportunities, or patterns).
+2. For each insight, provide a title, detailed explanation (signals), potential business risk, impact domain (Retention, Monetization, etc.), and severity.
+3. OUTPUT MUST BE STRICT VALID JSON ONLY.
+4. DO NOT use markdown code blocks (```json).
+5. DO NOT include any text outside the JSON.
+
+JSON STRUCTURE:
+{{
+    "insights": [
+        {{
+            "title": "Insight Title",
+            "signals": "Explanation of the pattern observed...",
+            "business_risk": "What happens if we ignore this?",
+            "impact_domain": "Retention",
+            "severity": "High"
+        }}
+    ]
+}}
 """
 
 FEATURE_PROMPT = """
-Role: Product design AI.
-Task:
-Convert insights into scalable product features.
+Based on the following strategic insights, brainstorm 3-5 concrete product features to address them.
 
-Rules:
-- Practical solutions: Must be buildable.
-- Ecosystem-aware: Consider cross-vertical impact.
-- Behavior-driven: Directly address the insight.
-- Business-aligned: Focus on growth/revenue/retention.
-
-Output Schema (JSON):
-{
-  "features": [
-    {
-      "name": "Feature Name",
-      "description": "Short description of the feature",
-      "target_segment": "Who this is for",
-      "expected_impact": "High/Medium/Low",
-      "risk_level": "High/Medium/Low"
-    }
-  ]
-}
-
-Input Insights:
+INSIGHTS:
 {insights_data}
+
+INSTRUCTIONS:
+1. Propose features that directly solve the identified risks or capture opportunities.
+2. For each feature, provide a name, description, expected impact (High/Medium/Low), risk level, and target segment.
+3. OUTPUT MUST BE STRICT VALID JSON ONLY.
+4. DO NOT use markdown code blocks.
+5. DO NOT include any text outside the JSON.
+
+JSON STRUCTURE:
+{{
+    "features": [
+        {{
+            "name": "Feature Name",
+            "description": "What is the feature and how does it work?",
+            "expected_impact": "High",
+            "risk_level": "Low",
+            "target_segment": "All Users"
+        }}
+    ]
+}}
 """
 
 EXPERIMENT_PROMPT = """
-Role: Experimentation AI.
-Task:
-Design experiments to validate features.
+Design A/B validation experiments for the following new feature concepts.
 
-Rules:
-- Testable hypotheses: Must be falsifiable.
-- Clear metrics: Primary (success) and Secondary (guardrail).
-- Measurable outcomes: Define what success looks like.
-- Controlled design: Specify the test group.
-
-Output Schema (JSON):
-{
-  "experiments": [
-    {
-      "hypothesis": "If we do X, then Y will happen",
-      "test_design": "A/B Test vs Control",
-      "primary_metric": "Key metric to track",
-      "secondary_metrics": "Guardrail metrics",
-      "segment": "Target audience",
-      "duration": "e.g., 2 weeks",
-      "success_criteria": "e.g., >5% uplift"
-    }
-  ]
-}
-
-Input Features:
+FEATURES:
 {features_data}
+
+INSTRUCTIONS:
+1. Design one validation experiment for each feature features.
+2. Define the hypothesis, test design (A/B, Fake Door, etc.), primary metric, and success criteria.
+3. OUTPUT MUST BE STRICT VALID JSON ONLY.
+4. DO NOT use markdown code blocks.
+5. DO NOT include any text outside the JSON.
+
+JSON STRUCTURE:
+{{
+    "experiments": [
+        {{
+            "feature_name": "Feature Name",
+            "hypothesis": "If we do X, then Y will happen...",
+            "test_design": "A/B Test",
+            "primary_metric": "Conversion Rate",
+            "segment": "New Users",
+            "duration": "2 weeks",
+            "success_criteria": "5% uplift in conversion"
+        }}
+    ]
+}}
 """
 
 PRIORITY_PROMPT = """
-Role: Product strategy AI.
-Task:
-Rank initiatives using prioritization framework.
+Act as a Head of Product. Prioritize the following initiatives based on Impact, Confidence, and Ease (ICE framework).
 
-Rules:
-- Apply scoring logic: Weigh Impact vs Effort.
-- Justify rankings: Explain why #1 is #1.
-- Balance tradeoffs: High impact/High effort vs Low impact/Low effort.
-- Avoid novelty bias: Focus on value.
+FEATURES:
+{features_data}
 
-Output Schema (JSON):
-{
-  "priorities": [
-    {
-      "initiative": "Feature/Experiment Name",
-      "UI_score": 0-10,
-      "BI_score": 0-10,
-      "confidence_score": 0-10,
-      "risk_reduction_score": 0-10,
-      "effort_score": 0-10,
-      "final_score": 0-100,
-      "rank": 1,
-      "rationale": "Why this rank?"
-    }
-  ]
-}
+EXPERIMENTS:
+{experiments_data}
 
-Input Initiatives:
-{initiatives_data}
+INSTRUCTIONS:
+1. Score each initiative on Impact (1-10), Confidence (1-10), and Effort (1-10, where 10 is hardest, so inverse for score).
+2. Calculate a final priority score (0-100).
+3. Provide a brief rationale.
+4. OUTPUT MUST BE STRICT VALID JSON ONLY.
+5. DO NOT use markdown code blocks.
+6. DO NOT include any text outside the JSON.
+
+JSON STRUCTURE:
+{{
+    "priorities": [
+        {{
+            "initiative": "Feature Name",
+            "rank": 1,
+            "final_score": 85,
+            "impact_score": 9,
+            "confidence_score": 8,
+            "effort_score": 5,
+            "rationale": "High impact but medium effort..."
+        }}
+    ]
+}}
 """

@@ -29,5 +29,5 @@ def generate_insights(intelligence_summary, api_key):
         return data.get("insights", [])
         
     except Exception as e:
-        print(f"Error generating insights: {e}")
+        print(f"Error generating insights: {str(e)}")
         return []

@@ -28,5 +28,5 @@ def generate_experiments(features, api_key):
         return data.get("experiments", [])
         
     except Exception as e:
-        print(f"Error generating experiments: {e}")
+        print(f"Error generating experiments: {str(e)}")
         return []
