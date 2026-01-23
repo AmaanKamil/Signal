@@ -24,30 +24,30 @@ def run_signal_ai_pipeline(intelligence_summary, api_key):
     
     try:
         # Step 1: Generate Insights
-        status_text.text("AI: Analyzing intelligence patterns...")
+        status_text.markdown("### 🧠 AI: Analyzing intelligence patterns...")
         ai_insights = generate_insights(intelligence_summary, api_key)
         results["ai_insights"] = ai_insights
         progress_bar.progress(25)
         
         # Step 2: Generate Features
-        status_text.text("AI: Ideating features...")
+        status_text.markdown("### 💡 AI: Ideating product features...")
         ai_features = generate_features(ai_insights, api_key)
         results["ai_features"] = ai_features
         progress_bar.progress(50)
         
         # Step 3: Generate Experiments
-        status_text.text("AI: Designing experiments...")
+        status_text.markdown("### 🧪 AI: Designing validation experiments...")
         ai_experiments = generate_experiments(ai_features, api_key)
         results["ai_experiments"] = ai_experiments
         progress_bar.progress(75)
         
         # Step 4: Prioritize
-        status_text.text("AI: Prioritizing roadmap...")
+        status_text.markdown("### 🎯 AI: Prioritizing roadmap...")
         ai_priorities = generate_priorities(ai_features, ai_experiments, api_key)
         results["ai_priorities"] = ai_priorities
         progress_bar.progress(100)
         
-        status_text.text("AI processing complete!")
+        status_text.success("✅ AI Strategic Analysis Complete!")
         return results, "Success"
         
     except Exception as e:
