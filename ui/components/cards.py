@@ -21,7 +21,8 @@ def insight_card(title, detail, domain, severity, source="Rule-based"):
         border-left: 5px solid {border_color};
         box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         margin-bottom: 15px;
-    ">
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    " onmouseover="this.style.transform='translateX(5px)'; this.style.box_shadow='0 4px 6px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateX(0)'; this.style.box_shadow='0 1px 3px rgba(0,0,0,0.1)';" >
         <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
             <h4 style="margin:0; color:#333;">{title}</h4>
             <span style="font-size:0.8em; color:#888;">{source}</span>
@@ -62,7 +63,8 @@ def feature_card(name, description, impact, risk, source="AI"):
         box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         margin-bottom: 15px;
         border-top: 3px solid #2196f3;
-    ">
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    " onmouseover="this.style.transform='translateY(-3px)'; this.style.box_shadow='0 6px 12px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.box_shadow='0 2px 5px rgba(0,0,0,0.05)';" >
         <div style="display:flex; justify-content:space-between;">
             <h4 style="margin:0; color:#1565c0;">{name}</h4>
             <span style="font-size:0.75em; background:#e3f2fd; color:#1565c0; padding:2px 6px; border-radius:4px;">{source}</span>
@@ -79,6 +81,7 @@ def metric_card(label, value, subtext=None, trend=None):
     """
     Renders a clean metric card.
     """
+    trend_color = trend if trend else "#888"
     st.markdown(f"""
     <div style="
         background-color: #fff;
@@ -86,9 +89,10 @@ def metric_card(label, value, subtext=None, trend=None):
         border-radius: 8px;
         box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         text-align: center;
-    ">
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    " onmouseover="this.style.transform='translateY(-2px)'; this.style.box_shadow='0 4px 6px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.box_shadow='0 1px 2px rgba(0,0,0,0.1)';" >
         <p style="color:#777; font-size:0.9em; margin:0; text-transform:uppercase; letter-spacing:0.5px;">{label}</p>
         <h2 style="color:#333; margin:5px 0; font-size:2em;">{value}</h2>
-        {f'<p style="color:{trend}; font-size:0.8em; margin:0;">{subtext}</p>' if subtext else ''}
+        {f'<p style="color:{trend_color}; font-size:0.8em; margin:0;">{subtext}</p>' if subtext else ''}
     </div>
     """, unsafe_allow_html=True)
